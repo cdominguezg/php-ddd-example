@@ -13,11 +13,14 @@ RUN apk --update upgrade \
         intl \
         zip \
         pdo_mysql
-
 RUN pickle install apcu@5.1.21
-
 ADD etc/infrastructure/php/extensions/rabbitmq.sh /root/install-rabbitmq.sh
 ADD etc/infrastructure/php/extensions/xdebug.sh /root/install-xdebug.sh
+
+RUN sed -i '1s/^.*#//;s/\r$//' /root/install-rabbitmq.sh
+RUN sed -i '1s/^.*#//;s/\r$//' /root/install-xdebug.sh
+
+
 RUN apk add git
 RUN sh /root/install-rabbitmq.sh
 RUN sh /root/install-xdebug.sh
